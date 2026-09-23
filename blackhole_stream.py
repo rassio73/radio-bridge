@@ -1,54 +1,45 @@
-const WebSocket = require('ws');
-const { spawn } = require('child_process');
+import pyaudio
+import sys
 
-const wss = new WebSocket.Server({ port: 8080 });
-console.log('Serwer WebSocket nasłuchuje na porcie 8080...');
+CHUNK = 1024
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+RATE = 48000
+DEVICE_NAME = "BlackHole"
 
-wss.on('connection', (ws) => {
-    console.log('iPhone połączony!');
+p = pyaudio.PyAudio()
 
-    const rec = spawn('python3', [
-        '/Users/rassio/Desktop/radio-bridge/blackhole_stream.py'
-    ]);
+device_index = None
+for i in range(p.get_device_count()):
+    info = p.get_device_info_by_index(i)
+    if DEVICE_NAME.lower() in info['name'].lower() and info['maxInputChannels'] > 0:
+        device_index = i
+        print(f"Znaleziono: {info['name']} (index {i})", file=sys.stderr)
+        break
 
-    rec.stdout.on('data', (data) => {
-        if (ws.readyState === 1) {
-            ws.send(data);
-        }
-    });
+if device_index is None:
+    print("BLAD: Nie znaleziono BlackHole!", file=sys.stderr)
+    sys.exit(1)
 
-    rec.stderr.on('data', (data) => {
-        console.log('rec:', data.toString());
-    });
+stream = p.open(
+    format=FORMAT,
+    channels=CHANNELS,
+    rate=RATE,
+    input=True,
+    input_device_index=device_index,
+    frames_per_buffer=CHUNK
+)
 
-    const play = spawn('play', [
-        '-q',
-        '-b', '16',
-        '-c', '1',
-        '-r', '48000',
-        '-e', 'signed-integer',
-        '-t', 'raw',
-        '-'
-    ]);
+print("Streaming audio...", file=sys.stderr)
 
-    play.stdin.on('error', (err) => {
-        console.log('play error:', err.message);
-    });
-
-    play.on('error', (err) => {
-        console.log('play spawn error:', err.message);
-    });
-
-    ws.on('message', (data) => {
-        if (play.stdin.writable) {
-            play.stdin.write(data);
-        }
-    });
-
-    ws.on('close', () => {
-        console.log('iPhone rozłączony!');
-        rec.kill();
-        play.kill();
-    });
-});
-});
+try:
+    while True:
+        data = stream.read(CHUNK, exception_on_overflow=False)
+        sys.stdout.buffer.write(data)
+        sys.stdout.buffer.flush()
+except KeyboardInterrupt:
+    pass
+finally:
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
