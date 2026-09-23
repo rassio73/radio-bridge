@@ -2,7 +2,6 @@ import pyaudio
 import sys
 
 CHUNK = 1024
-FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 48000
 DEVICE_NAME = "BlackHole"
@@ -22,7 +21,7 @@ if device_index is None:
     sys.exit(1)
 
 stream = p.open(
-    format=FORMAT,
+    format=pyaudio.paFloat32,
     channels=CHANNELS,
     rate=RATE,
     input=True,
