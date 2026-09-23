@@ -1,0 +1,27 @@
+PID 28067 received SIGSEGV for address: 0x0
+0   segfault-handler.node               0x0000000136210ee4 _ZL16segfault_handleriP9__siginfoPv + 288
+1   libsystem_platform.dylib            0x000000018605d744 _sigtramp + 56
+2   naudiodon.node                      0x00000001361f1720 _ZN10streampunk10getDevicesEP10napi_env__P20napi_callback_info__ + 56
+3   node                                0x00000001022ae910 _ZN6v8impl12_GLOBAL__N_123FunctionCallbackWrapper6InvokeERKN2v820FunctionCallbackInfoINS2_5ValueEEE + 80
+4   node                                0x0000000103226818 Builtins_CallApiCallbackGeneric + 152
+5   node                                0x0000000103224bec Builtins_InterpreterEntryTrampoline + 268
+6   node                                0x0000000103224bec Builtins_InterpreterEntryTrampoline + 268
+7   node                                0x0000000103224bec Builtins_InterpreterEntryTrampoline + 268
+8   node                                0x0000000103224bec Builtins_InterpreterEntryTrampoline + 268
+9   node                                0x0000000103224bec Builtins_InterpreterEntryTrampoline + 268
+10  node                                0x0000000103224bec Builtins_InterpreterEntryTrampoline + 268
+11  node                                0x0000000103224bec Builtins_InterpreterEntryTrampoline + 268
+12  node                                0x0000000103224bec Builtins_InterpreterEntryTrampoline + 268
+13  node                                0x00000001032228cc Builtins_JSEntryTrampoline + 172
+14  node                                0x0000000103222570 Builtins_JSEntry + 176
+15  node                                0x000000010273a9a8 _ZN2v88internal12_GLOBAL__N_16InvokeEPNS0_7IsolateERKNS1_12InvokeParamsE + 1652
+16  node                                0x000000010273a30c _ZN2v88internal9Execution4CallEPNS0_7IsolateENS0_12DirectHandleINS0_6ObjectEEES6_NS_4base6VectorIKS6_EE + 120
+17  node                                0x00000001025aec90 _ZN2v88Function4CallEPNS_7IsolateENS_5LocalINS_7ContextEEENS3_INS_5ValueEEEiPS7_ + 492
+18  node                                0x00000001022e3a84 _ZN4node8builtins13BuiltinLoader14CompileAndCallEN2v85LocalINS2_7ContextEEEPKcPNS_5RealmE + 472
+19  node                                0x00000001023c96f4 _ZN4node5Realm19ExecuteBootstrapperEPKc + 76
+20  node                                0x00000001022bcd9c _ZN4nodeL14StartExecutionEPNS_11EnvironmentEPKc + 52
+21  node                                0x00000001022bccf0 _ZN4node14StartExecutionEPNS_11EnvironmentENSt3__18functionIFN2v810MaybeLocalINS4_5ValueEEERKNS_36StartExecutionCallbackInfoWithModuleEEEE + 1856
+22  node                                0x00000001021ed8a0 _ZN4node15LoadEnvironmentEPNS_11EnvironmentENSt3__18functionIFN2v810MaybeLocalINS4_5ValueEEERKNS_36StartExecutionCallbackInfoWithModuleEEEENS3_IFvS1_NS4_5LocalIS6_EESE_EEE + 388
+23  node                                0x000000010236fec0 _ZN4node16NodeMainInstance3RunEv + 168
+24  node                                0x00000001022c07d8 _ZN4node5StartEiPPc + 604
+25  dyld                                0x0000000185c884e4 start + 6992
